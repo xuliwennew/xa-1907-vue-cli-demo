@@ -1,26 +1,31 @@
 import Vue from 'vue'
 import home from '../views/tabs/home'
 import search from '../views/tabs/search'
-import user from '../views/tabs/user'
+// import user from '../views/tabs/user'
 import main from '../views/main'
 import hello from '../views/hello'
 import VueRouter from 'vue-router'
-import address from '../views/address'
+import counter from '../views/counter'
+import user from '../components/customer/user'
 Vue.use(VueRouter)
 
 let router = new VueRouter({
   routes: [
     {
       path: '/address',
-      component: address
+      component: resolve => require(['../views/address'], resolve)
     },
     {
       path: '/login',
       component: hello
     },
     {
+      path: '/user',
+      component: user
+    },
+    {
       path: '/',
-      redirect: '/main'
+      component: counter
     },
     {
       path: '/main',
@@ -33,10 +38,6 @@ let router = new VueRouter({
         {
           path: 'search',
           component: search
-        },
-        {
-          path: 'user',
-          component: user
         }
       ]
     }
