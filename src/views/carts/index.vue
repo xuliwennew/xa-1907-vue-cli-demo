@@ -1,25 +1,25 @@
 <template>
 
-    <div v-if="cartInfo.shops">
-        <jx-cart-header></jx-cart-header>
-        <div class="shopping">
-            <jx-cart-shop :key="sid" @pAll="productSelectAll" @sAll="sSelectAll" :data="shop" :sid="sid"
-                          v-for="(shop,sid) in cartInfo.shops"></jx-cart-shop>
-        </div>
-        <jx-cart-footer @cAll="shopSelectAll" v-if="cartInfo.shops" :data="cartInfo"></jx-cart-footer>
+  <div v-if="cartInfo.shops">
+    <jx-cart-header></jx-cart-header>
+    <div class="shopping">
+      <jx-cart-shop :key="sid" @pAll="productSelectAll" @sAll="sSelectAll" :data="shop" :sid="sid"
+                    v-for="(shop,sid) in cartInfo.shops"></jx-cart-shop>
     </div>
-    <jx-loading v-else></jx-loading>
+    <jx-cart-footer @cAll="shopSelectAll" v-if="cartInfo.shops" :data="cartInfo"></jx-cart-footer>
+  </div>
+  <jx-loading v-else></jx-loading>
 
 </template>
 
 <script>
 
-import loading from '../components/common/loading'
-import cartApi from '../apis/cartApi'
-import header from '../components/carts/header'
-import footer from '../components/carts/footer'
-import shop from '../components/carts/shop'
-
+import loading from '../../components/common/loading'
+// import cartApi from '../../apis/cartApi'
+import header from '../../components/carts/header'
+import footer from '../../components/carts/footer'
+import shop from '../../components/carts/shop'
+import { mapGetters } from 'vuex'
 export default {
   name: 'cart',
   components: {
@@ -30,21 +30,26 @@ export default {
   },
   data () {
     return {
-      flag: true,
-      cartInfo: [] // 页面的数据模型
+      flag: true
+      // cartInfo: [] // 页面的数据模型
     }
+  },
+  computed: {
+    ...mapGetters({
+      cartInfo: 'GETCART'
+    })
   },
   methods: {
     /**
-             * 页面的数据加载
-             **/
-    async _initPageData () {
-      let data = await cartApi.getCartInfoByUserId()
-      this.cartInfo = data
-    },
+       * 页面的数据加载
+       **/
+    // async _initPageData () {
+    //   let data = await cartApi.getCartInfoByUserId()
+    //   this.cartInfo = data
+    // },
     /**
-             * 购物车全选返选
-             */
+       * 购物车全选返选
+       */
     shopSelectAll () {
       let checked = this.cartInfo.checked
       console.log(checked)
@@ -56,8 +61,8 @@ export default {
       })
     },
     /**
-             * 单店铺的全选与返选
-             */
+       * 单店铺的全选与返选
+       */
     sSelectAll (sid) {
       let checked = this.cartInfo.shops[sid].checked
       console.log(sid)
@@ -66,8 +71,8 @@ export default {
       })
     },
     /**
-             * 单选状态的改变
-             */
+       * 单选状态的改变
+       */
     productSelectAll (sid) {
       console.log(sid)
       let checked = this.cartInfo.shops[sid].products.every((product, pid, nArr) => {
@@ -85,10 +90,10 @@ export default {
     },
 
     /**
-             * 增加数量
-             * @param sid
-             * @param pid
-             */
+       * 增加数量
+       * @param sid
+       * @param pid
+       */
     updateNum (sid, pid, flag) {
       console.log(sid, pid)
       if (flag === 'add') {
@@ -102,9 +107,9 @@ export default {
       }
     },
     /**
-             * 统计cart总价格
-             * @private
-             */
+       * 统计cart总价格
+       * @private
+       */
     _countCartPrice () {
       let total = 0
 
@@ -120,7 +125,8 @@ export default {
     }
   },
   beforeMount () {
-    this._initPageData()
+    // this._initPageData()
+    this.$store.dispatch('INITCART')
   },
   mounted () {
     this.$bus.$on('num', this.updateNum)
@@ -142,5 +148,5 @@ export default {
 </script>
 
 <style scoped>
-    @import "../assets/carts.css";
+  @import "../../assets/carts.css";
 </style>

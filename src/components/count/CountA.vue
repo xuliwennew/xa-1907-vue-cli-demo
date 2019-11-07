@@ -6,23 +6,30 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'CountA',
   data () {
     return {
-      num: localStorage.getItem('num')
+      // num: localStorage.getItem('num')
     }
+  },
+  computed: {
+    ...mapGetters({
+      num: 'GETNUM'
+    })
   },
   methods: {
     update () {
-      let num = parseInt(localStorage.getItem('num'))
-      localStorage.setItem('num', ++num)
+      // let num = parseInt(localStorage.getItem('num'))
+      // localStorage.setItem('num', ++num)
+      this.$store.dispatch('INC')
     }
   },
   mounted () {
-    setInterval(() => {
-      this.num = localStorage.getItem('num')
-    }, 10)
+    // setInterval(() => {
+    //   this.num = localStorage.getItem('num')
+    // }, 10)
   }
 }
 </script>

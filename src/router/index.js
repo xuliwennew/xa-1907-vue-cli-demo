@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import home from '../views/tabs/home'
 import search from '../views/tabs/search'
-// import user from '../views/tabs/user'
+import carts from '../views/carts/index'
+import goods from '../views/goods/index'
+import list from '../views/goods/list'
 import main from '../views/main'
 import hello from '../views/hello'
 import VueRouter from 'vue-router'
@@ -20,8 +22,20 @@ let router = new VueRouter({
       component: hello
     },
     {
+      path: '/goods',
+      component: goods
+    },
+    {
+      path: '/list',
+      component: list
+    },
+    {
       path: '/user',
       component: user
+    },
+    {
+      path: '/carts',
+      component: carts
     },
     {
       path: '/',
